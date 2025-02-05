@@ -263,8 +263,8 @@ export default function ProductDashboard() {
                     <TableCell>{product.price.toFixed(2)}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>{product.supplier_name}</TableCell>
-                    <TableCell>{product.manager_name}</TableCell>
                     <TableCell>{product.type}</TableCell>
+                    <TableCell>{product.manager_name}</TableCell>
                     <TableCell>
                       {new Date(product.created_at).toLocaleDateString()}
                     </TableCell>
