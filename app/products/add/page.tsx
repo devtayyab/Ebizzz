@@ -21,6 +21,8 @@ export default function AddProduct() {
     price: "",
     quantity: "",
     supplier_name: "",
+    manager_name: "",
+    type: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -34,6 +36,8 @@ export default function AddProduct() {
           price: parseFloat(formData.price),
           quantity: parseInt(formData.quantity),
           supplier_name: formData.supplier_name,
+          manager_name: formData.manager_name,
+          type: formData.type,
         },
       ]);
 
@@ -102,7 +106,7 @@ export default function AddProduct() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="supplier_name">Supplier Name</Label>
+            <Label htmlFor="supplier_name">Supplier/Customer Name</Label>
             <Input
               id="supplier_name"
               name="supplier_name"
@@ -110,6 +114,31 @@ export default function AddProduct() {
               onChange={handleChange}
               required
               placeholder="Enter supplier name"
+            />
+          </div>
+
+
+          <div className="space-y-2">
+            <Label htmlFor="manager_name">Manager Name</Label>
+            <Input
+              id="manager_name"
+              name="manager_name"
+              value={formData.manager_name}
+              onChange={handleChange}
+              required
+              placeholder="Enter Manager Name"
+            />
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="manager_name">Type</Label>
+            <Input
+              id="type"
+              name="type"
+              value={formData.type}
+              onChange={handleChange}
+              required
+              placeholder="Enter WTB / WTS"
             />
           </div>
 

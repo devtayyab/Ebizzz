@@ -29,6 +29,8 @@ type Product = {
   price: number;
   quantity: number;
   supplier_name: string;
+  manager_name: string;
+  type: string;
   created_at: string;
 };
 
@@ -42,9 +44,13 @@ export default function ProductDashboard() {
   const [search, setSearch] = useState("");
   const [sortField, setSortField] = useState<"price" | "created_at">("created_at");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const [priceRange, setPriceRange] = useState<"all" | "low" | "medium" | "high">("all");
+  const [priceRange, _setPriceRange] = useState<"all" | "low" | "medium" | "high">("all");
   const [selectedSupplier, setSelectedSupplier] = useState<string>("all");
+  const [seletedType , setSeletedType] = useState<string>("all");
+  const [selectedManager, setSelectedManager] = useState<string>("all");
   const [suppliers, setSuppliers] = useState<string[]>([]);
+  const [managers, setManagers] = useState<string[]>([]);
+  const [types, setTypes] = useState<string[]>([]);
 
   useEffect(() => {
     fetchProducts();
@@ -64,6 +70,16 @@ export default function ProductDashboard() {
       if (selectedSupplier !== "all") {
         query = query.eq("supplier_name", selectedSupplier);
       }
+
+      if(selectedManager !== "all") {
+        query = query.eq("manager_name", selectedManager);
+      }
+
+      if (seletedType !== "all") {
+        query = query.eq("type", seletedType);
+      }
+
+
 
       if (priceRange !== "all") {
         switch (priceRange) {
@@ -87,6 +103,10 @@ export default function ProductDashboard() {
 
       // Get unique suppliers
       const uniqueSuppliers = Array.from(new Set([(data?.map(p => p.supplier_name) || [])].flat()))
+      const uniqueManagers = Array.from(new Set([(data?.map(p => p.manager_name) || [])].flat()))
+      const uniqueTypes = Array.from(new Set([(data?.map(p => p.type) || [])].flat()))
+      setManagers(uniqueManagers);
+      setTypes(uniqueTypes);
       setSuppliers(uniqueSuppliers);
     } catch (error) {
       console.error("Error fetching products:", error);
@@ -127,7 +147,7 @@ export default function ProductDashboard() {
             </div>
           </div>
 
-          <Select
+          {/* <Select
             value={priceRange}
             onValueChange={(value: "all" | "low" | "medium" | "high") => setPriceRange(value)}
           >
@@ -140,7 +160,7 @@ export default function ProductDashboard() {
               <SelectItem value="medium">Medium ($100 - $500)</SelectItem>
               <SelectItem value="high">High (&gt; $500)</SelectItem>
             </SelectContent>
-          </Select>
+          </Select> */}
 
           <Select
             value={selectedSupplier}
@@ -152,6 +172,38 @@ export default function ProductDashboard() {
             <SelectContent>
               <SelectItem value="all">All Suppliers</SelectItem>
               {suppliers.map((supplier) => (
+                <SelectItem key={supplier} value={supplier}>
+                  {supplier}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            value={seletedType}
+            onValueChange={(value) => setSeletedType(value)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Type" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Types</SelectItem>
+              {types.map((type) => (
+                <SelectItem key={type} value={type}>
+                  {type}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select
+            value={selectedManager}
+            onValueChange={(value) => setSelectedManager(value)}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select Manager" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Manager</SelectItem>
+              {managers.map((supplier) => (
                 <SelectItem key={supplier} value={supplier}>
                   {supplier}
                 </SelectItem>
@@ -176,7 +228,9 @@ export default function ProductDashboard() {
                   </Button>
                 </TableHead>
                 <TableHead>Quantity</TableHead>
-                <TableHead>Supplier</TableHead>
+                <TableHead>Supplier/Customer</TableHead>
+                <TableHead>Type</TableHead>
+                <TableHead>Manager</TableHead>
                 <TableHead>
                   <Button
                     variant="ghost"
@@ -209,6 +263,8 @@ export default function ProductDashboard() {
                     <TableCell>${product.price.toFixed(2)}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>{product.supplier_name}</TableCell>
+                    <TableCell>{product.manager_name}</TableCell>
+                    <TableCell>{product.type}</TableCell>
                     <TableCell>
                       {new Date(product.created_at).toLocaleDateString()}
                     </TableCell>
