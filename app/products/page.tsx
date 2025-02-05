@@ -86,7 +86,7 @@ export default function ProductDashboard() {
       setProducts(data || []);
 
       // Get unique suppliers
-      const uniqueSuppliers = [...new Set(data?.map(p => p.supplier_name) || [])];
+      const uniqueSuppliers = Array.from(new Set([(data?.map(p => p.supplier_name) || [])].flat()))
       setSuppliers(uniqueSuppliers);
     } catch (error) {
       console.error("Error fetching products:", error);
