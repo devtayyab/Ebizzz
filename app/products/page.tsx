@@ -54,7 +54,7 @@ export default function ProductDashboard() {
 
   useEffect(() => {
     fetchProducts();
-  }, [search, sortField, sortOrder, priceRange, selectedSupplier]);
+  }, [search, sortField, sortOrder, priceRange, selectedSupplier, selectedManager , seletedType]);
 
   const fetchProducts = async () => {
     try {
