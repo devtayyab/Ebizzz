@@ -260,7 +260,7 @@ export default function ProductDashboard() {
                 products.map((product) => (
                   <TableRow key={product.id}>
                     <TableCell>{product.name}</TableCell>
-                    <TableCell>${product.price.toFixed(2)}</TableCell>
+                    <TableCell>{product.price.toFixed(2)}</TableCell>
                     <TableCell>{product.quantity}</TableCell>
                     <TableCell>{product.supplier_name}</TableCell>
                     <TableCell>{product.manager_name}</TableCell>
